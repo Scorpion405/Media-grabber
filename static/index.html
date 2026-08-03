@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Grabber</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="panel" id="card">
+
+  <header class="panel-header">
+    <div class="wordmark">
+      <span class="signal-dot" id="signal-dot"></span>
+      <h1>Media Grabber</h1>
+    </div>
+    <button type="button" id="history-toggle-btn" class="ghost-btn">History</button>
+  </header>
+
+  <p class="sites-line">YouTube (incl. playlists) &middot; Instagram &middot; Facebook &middot; X &middot; TikTok &middot; SoundCloud &middot; Vimeo &middot; Twitch &middot; Reddit &middot; Dailymotion &middot; Bandcamp &middot; Tumblr &middot; Bilibili</p>
+
+  <form id="download-form">
+
+    <section class="field-group">
+      <div class="field-group-head">
+        <span class="eyebrow">Source</span>
+        <button type="button" id="batch-toggle-btn" class="pill-toggle">[ multiple links ]</button>
+      </div>
+
+      <input type="url" id="url" class="url-input" placeholder="Paste a link…" required>
+      <textarea id="batch-urls" class="url-input hidden" placeholder="Paste one link per line…" rows="5"></textarea>
+
+      <div id="preview-area" class="preview-card hidden">
+        <img id="preview-thumb" class="preview-thumb hidden" alt="">
+        <div class="preview-text">
+          <p id="preview-title" class="preview-title"></p>
+          <p id="preview-meta" class="preview-meta mono"></p>
+        </div>
+      </div>
+      <p id="preview-loading" class="hint hidden">Looking up title…</p>
+    </section>
+
+    <section class="field-group">
+      <span class="eyebrow">Output</span>
+
+      <div class="segmented" id="format-segmented">
+        <button type="button" class="segment" data-value="mp3">MP3</button>
+        <button type="button" class="segment" data-value="mp4">MP4</button>
+        <button type="button" class="segment" data-value="image">Image</button>
+      </div>
+      <select id="format" class="sr-only" tabindex="-1" aria-hidden="true">
+        <option value="mp3">MP3 (audio)</option>
+        <option value="mp4">MP4 (video)</option>
+        <option value="image">Image / Post</option>
+      </select>
+
+      <div class="field" id="quality-field">
+        <label for="quality">Quality</label>
+        <select id="quality">
+          <option value="320">320 kbps</option>
+          <option value="192">192 kbps</option>
+          <option value="128">128 kbps</option>
+        </select>
+      </div>
+    </section>
+
+    <details class="advanced">
+      <summary>Advanced options</summary>
+
+      <label class="checkbox-row" id="subs-row">
+        <input type="checkbox" id="embed-subs">
+        <span>Embed English subtitles (if available)</span>
+      </label>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="use-cookies">
+        <span>Use my browser's login (for private/restricted content)</span>
+      </label>
+      <select id="cookie-browser" class="hidden">
+        <option value="chrome">Chrome</option>
+        <option value="firefox">Firefox</option>
+        <option value="edge">Edge</option>
+        <option value="brave">Brave</option>
+        <option value="safari">Safari</option>
+      </select>
+    </details>
+
+    <button type="submit" id="submit-btn">Download</button>
+  </form>
+
+  <!-- Single-item flow -->
+  <div id="status-area" class="hidden activity-block">
+    <div class="activity-head">
+      <p id="status-text" class="mono"></p>
+      <button type="button" id="cancel-btn" class="ghost-btn small">Cancel</button>
+    </div>
+    <div class="progress-bar">
+      <div id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div id="result-area" class="hidden result-card">
+    <p id="result-title"></p>
+    <p id="result-meta" class="preview-meta mono"></p>
+    <a id="result-link" class="button-link" href="#">Save file</a>
+  </div>
+
+  <!-- Playlist / batch flow -->
+  <div id="playlist-panel" class="hidden field-group">
+    <div class="field-group-head">
+      <span class="eyebrow" id="playlist-count"></span>
+      <div class="playlist-select-buttons">
+        <button type="button" id="select-all-btn" class="ghost-btn small">All</button>
+        <button type="button" id="select-none-btn" class="ghost-btn small">None</button>
+      </div>
+    </div>
+    <div id="playlist-items" class="playlist-items"></div>
+  </div>
+
+  <p id="playlist-loading" class="hint hidden">Loading playlist…</p>
+
+  <div id="playlist-downloads" class="hidden activity-block"></div>
+
+  <p id="error-text" class="error hidden"></p>
+</div>
+
+<!-- Download history drawer -->
+<div id="history-panel" class="hidden history-drawer">
+  <div class="drawer-head">
+    <span class="eyebrow">Recent downloads</span>
+    <div class="playlist-select-buttons">
+      <button type="button" id="clear-history-btn" class="ghost-btn small">Clear</button>
+      <button type="button" id="history-close-btn" class="ghost-btn small">Close</button>
+    </div>
+  </div>
+  <div id="history-list" class="playlist-items drawer-list"></div>
+</div>
+<div id="history-backdrop" class="history-backdrop hidden"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
